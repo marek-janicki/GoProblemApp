@@ -14,7 +14,10 @@ finer distinctions of who did what, so I can't confidently say to whom
 any of the legacy code belongs.
 
 I've decided to resurrect and move this code to python because it's been
-a while since I've done anything beyond a script in python. 
+a while since I've done anything beyond a script in python. The main
+purpose is for my own edification. If you want something that plays go,
+GnuGo exists. GoGrinder seemed fine for solving problems if that's
+your main goal.
 
 Where files live:  
 Old android source files live in /legacy  
