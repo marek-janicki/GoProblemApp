@@ -6,10 +6,8 @@ Maybe allow for network play?
 Maybe convert to a web app?
 
 Tasks:
- - Move files from android to python.
- - First decide on object structure
- - Build basic Go objects.
  - Then build parser (more fun than ui even if arguably should be after)
  - Build UI for board
+ - Enable ttl for go stones, so that they can be shown as disappearing.
  - Build UI for solving problems
  - Build UI for problem selection
