@@ -39,20 +39,22 @@ def GoBoard:
         '''
         self.board[stone.x][stone.y] = stone
 
-    def remove_stone(self, stone):
-        '''Removes this stone from the Go Board
+    def remove_stone(self, *args):
+        '''Removes a stone from the Go Board
 
+        Takes in either a GoStone as an argument or
+        x and y indices of the stone as afguments.
         Does not remove the stone itself.
         XXX: Does not check if the stone is already removed.
              Could potentially be a source of bugs.
         '''
-        self.remove_stone(stone.x, stone.y)
+        if (len(args) == 1):
+            x = args[0].x
+            y = args[0].y
+        else:
+            x = args[0]
+            y = args[1]
 
-    def remove_stone(self, x, y):
-        '''Removes the stone at x and y from the board.
-
-        Does not check if there is a stone there. Perhaps should?
-        '''
         self.board[x][y] = None
 
     def remove_stones(self, stones):
@@ -63,24 +65,20 @@ def GoBoard:
         for stone in stones:
             self.remove_stone(stone)
 
-    def get_group(self, x, y):
-        '''Get a group centred at the stone at x,y
+    def get_group(self, *args):
+        '''Get a group centred at a stone
          
+        Takes in either a GoStone as an argument or
+        x and y indices of the stone as afguments.
         Returns a list of GoStones
         '''
-        stone = self.get_stone(x, y)
-        if stone:
-            return self.get_group(stone)
-        return []
+        if (len(args) == 1):
+            original_stone = args[0]
+        else:
+            original_stone = self.get_stone(args[0], args[1])
 
-    def get_group(self, stone):
-        '''Get a group centred at the given stone
-         
-        Returns a list of GoStones
-        '''
-        first_stone = self.get_stone(x, y)
         ret_list = []
-        self._get_group(first_stone, ret_list)
+        self._get_group(original_stone, ret_list)
 
         #now we unmark all the stones so that future calls don't break
         for stone in ret_list:
@@ -112,7 +110,29 @@ def GoBoard:
         #Don't return the Nones
         return [stone for stone in potential_stones if stone]
 
-    def is_alive(self, stone):
+    def is_alive(self, *args):
+        '''True iff the stone/s is/are alive
+
+        Takes three possible types of arguments:
+        1. A GoStone object
+        2. A list of GoStone objects
+        3. A pair of x,y co-ordinates specifying a GoStone object.
+        '''
+        if (len(args) == 1):
+            if (isinstance(args[0], GoStone)):
+                return self._is_alive(args[0])
+            # else we have a list of stones.
+            else:
+                alive = True
+                for stone in args[0]:
+                    alive = alive and self._is_alive(args[0])
+                return alive
+        # else we have an x and y parameter.
+        else:
+            stone = self.get_stone(args[0], args[1])
+            return self._is_alive(args[0])
+
+    def _is_alive(self, stone):
         '''True iff the stone is alive'''
         stone_group = self.getGroup(stone)
         for a_stone in stone_group:
@@ -139,18 +159,3 @@ def GoBoard:
             if (not neighbour):
                 return True
         return False
-
-    def is_alive(self, x, y):
-        '''True iff the stone at x,y is alive'''
-        stone = self.get_stone(x, y)
-        if stone:
-            return self.is_alive(stone)
-        return False #I guess?
-
-    def is_alive(self, stones):
-        '''True iff the group of stones are alive
-
-        Assumes stons is a list of GoStones that *is* a group
-        '''
-        first_stone = stones[0]
-        return self.is_alive(first_stone)

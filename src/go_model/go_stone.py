@@ -21,6 +21,10 @@ class GoStone:
         ''' True iff the stone is black'''
         return self.colour == GoStone.BLACK
 
+    def __eq__(self, other):
+        '''If colour and position is the same, the stones are the same'''
+        return (self.x = other.x) and (self.y=other.y) and (self.isBlack() == other.isBlack())
+
 if __name__ == '__main__':
     x = GoStone(1, 2, True)
     print x.isBlack()
