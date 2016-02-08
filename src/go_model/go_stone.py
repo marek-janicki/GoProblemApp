@@ -23,7 +23,22 @@ class GoStone:
 
     def __eq__(self, other):
         '''If colour and position is the same, the stones are the same'''
-        return (self.x = other.x) and (self.y=other.y) and (self.isBlack() == other.isBlack())
+        if (other == None):
+            return False
+        return (self.x == other.x) and (self.y==other.y) and (self.isBlack() == other.isBlack())
+           
+    def __ne__(self, other):
+        '''If colour and position are different, the stones are different'''
+        return not self.__eq__(other)
+
+    def __hash__(self):
+        '''Needed to allow for making sets from lists. This isn't a psedo-random hash.'''
+
+        thisHash = self.x + self.y * 64
+        if (self.colour):
+            thisHash = 2 * thisHash
+        return thisHash
+
 
 if __name__ == '__main__':
     x = GoStone(1, 2, True)

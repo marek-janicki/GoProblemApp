@@ -1,6 +1,6 @@
 from go_stone import GoStone
 
-def GoBoard:
+class GoBoard:
     '''Stores the board state
 
     Allows for adding and removing stones, as well as getting
@@ -67,7 +67,7 @@ def GoBoard:
 
     def get_group(self, *args):
         '''Get a group centred at a stone
-         
+
         Takes in either a GoStone as an argument or
         x and y indices of the stone as afguments.
         Returns a list of GoStones
@@ -92,7 +92,7 @@ def GoBoard:
         stone_list.append(stone)
 
         for neighbour in self.get_neighbours(stone):
-            if (neighbour.colour == stone.colour) and not neighbour.touched:
+            if ((neighbour.colour == stone.colour) and not (neighbour.__dict__.has_key('touched') and neighbour.touched)):
                 self._get_group(neighbour, stone_list)
 
     def get_neighbours(self, stone):
@@ -125,7 +125,7 @@ def GoBoard:
             else:
                 alive = True
                 for stone in args[0]:
-                    alive = alive and self._is_alive(args[0])
+                    alive = alive and self._is_alive(stone)
                 return alive
         # else we have an x and y parameter.
         else:
@@ -134,7 +134,7 @@ def GoBoard:
 
     def _is_alive(self, stone):
         '''True iff the stone is alive'''
-        stone_group = self.getGroup(stone)
+        stone_group = self.get_group(stone)
         for a_stone in stone_group:
             if self._has_free_neighbour(a_stone):
                 return True
