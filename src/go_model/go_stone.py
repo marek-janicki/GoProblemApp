@@ -1,6 +1,6 @@
 class GoStone:
     '''An object representation of a Go Stone.
-       
+
     Just wraps its current
     position and colour. Note that colour is stored as a boolean
     with true being equivalent to black.
@@ -26,7 +26,7 @@ class GoStone:
         if (other == None):
             return False
         return (self.x == other.x) and (self.y==other.y) and (self.isBlack() == other.isBlack())
-           
+
     def __ne__(self, other):
         '''If colour and position are different, the stones are different'''
         return not self.__eq__(other)
